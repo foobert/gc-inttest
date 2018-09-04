@@ -5,7 +5,7 @@ const request = require("superagent");
 const xml2js = require("xml2js");
 
 describe("GPX generation", function() {
-  this.timeout(10000);
+  this.timeout(60000);
 
   it("should be available on /api/poi.gpx", async () => {
     const res = await request("OPTIONS", url("/api/poi.gpx"));
