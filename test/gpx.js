@@ -4,13 +4,13 @@ const expect = chai.expect;
 const request = require("superagent");
 const xml2js = require("xml2js");
 
-describe("GPX generation", function() {
-  this.timeout(60000);
+const TIMEOUT = 30000;
 
+describe("GPX generation", () => {
   it("should be available on /api/poi.gpx", async () => {
     const res = await request("OPTIONS", url("/api/poi.gpx"));
     expect(res.ok).to.be.true;
-  });
+  }).timeout(TIMEOUT);
 
   it("should serve an XML document", async () => {
     const res = await request.get(url("/api/poi.gpx")).buffer();
@@ -34,7 +34,7 @@ describe("GPX generation", function() {
       expect(wpt.cmt).to.be.not.empty;
       expect(wpt.type).to.equal("Geocache");
     }
-  });
+  }).timeout(TIMEOUT);
 
   it("should filter something", async () => {
     const res = await request.get(url("/api/poi.gpx")).buffer();
@@ -44,7 +44,7 @@ describe("GPX generation", function() {
       .buffer();
     expect(filtered.ok).to.be.true;
     expect(filtered.text.length).to.be.below(res.text.length);
-  });
+  }).timeout(TIMEOUT);
 });
 
 function url(p) {
