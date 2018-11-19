@@ -13,7 +13,10 @@ describe("GPX generation", () => {
   }).timeout(TIMEOUT);
 
   it("should serve an XML document", async () => {
-    const res = await request.get(url("/api/poi.gpx")).buffer();
+    const res = await request
+      .get(url("/api/poi.gpx"))
+      .query({ type: "earth" })
+      .buffer();
 
     expect(res.ok).to.be.true;
     expect(res.type).to.equal("application/gpx+xml");
@@ -34,16 +37,6 @@ describe("GPX generation", () => {
       expect(wpt.cmt).to.be.not.empty;
       expect(wpt.type).to.equal("Geocache");
     }
-  }).timeout(TIMEOUT);
-
-  it("should filter something", async () => {
-    const res = await request.get(url("/api/poi.gpx")).buffer();
-    const filtered = await request
-      .get(url("/api/poi.gpx"))
-      .query({ type: "traditional", score: 0.5, exclude: "foo" })
-      .buffer();
-    expect(filtered.ok).to.be.true;
-    expect(filtered.text.length).to.be.below(res.text.length);
   }).timeout(TIMEOUT);
 });
 
