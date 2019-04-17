@@ -15,7 +15,11 @@ describe("GPX generation", () => {
   it("should serve an XML document", async () => {
     const res = await request
       .get(url("/api/poi.gpx"))
-      .query({ type: "earth" })
+      .query({
+        type: "traditional",
+        score: 0.5,
+        bbox: [12.13423, 51.427169, 12.757732, 51.121813]
+      })
       .buffer();
 
     expect(res.ok).to.be.true;
